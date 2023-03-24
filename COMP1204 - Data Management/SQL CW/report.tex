@@ -1,0 +1,361 @@
+\documentclass{article}
+
+% Comments follow the % sign
+
+% Packages you may need in your TeX document to include figures, pseudocode etc.
+\usepackage{kantlipsum}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{listings}
+\definecolor{graycode}{rgb}{0.5,0.5,0.5}
+\definecolor{background}{RGB}{230,230,230}
+
+\lstset{basicstyle=\ttfamily,
+  backgroundcolor=\color{background},
+  numberstyle=\small\color{graycode},
+  showstringspaces=false,
+  keywordstyle=\color{blue},
+  morekeywords={"dateRep", "day", "month", "year", "cases", "deaths", "countriesAndTerritories", "geoId", "countryterritoryCode", "popData2020", "continentExp", CREATE, TABLE, INDEX, ON, INSERT, INTO, SELECT, DISTINCT, FROM, WHERE, AS, INNER, JOIN, ASC, ORDER, BY, GROUP, LIMIT},
+  otherkeywords={"dateRep", "day", "month", "year", "cases", "deaths", "countriesAndTerritories", "geoId", "countryterritoryCode", "popData2020", "continentExp", CREATE, TABLE, INDEX, ON, INSERT, INTO, SELECT, DISTINCT, FROM, WHERE, AS, INNER, JOIN, ASC, ORDER, BY, GROUP, LIMIT},
+  breaklines=true,
+  commentstyle=\color{red},
+  numbers=left,
+  numbersep=6pt
+}
+
+\title{COMP1204: Data Management \\ Coursework Two}
+\author{Lukas Kakogiannos \\ lk1u20, 32158998}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    The aim of this coursework is to create an SQLite based database to represent data of the ongoing Coronavirus outbreak from an Open Data Source \textbf{dataset.csv}. Moreover, the database model should be fully normalised, facilitating querying.
+\end{abstract}
+
+\section{The Relational Model}
+
+\subsection{EX1}
+
+The table below shows the relations directly represented in the dataset.csv file, and their respective data types.
+
+\begin{table}[ht]
+    \caption{Relations Within the Dataset}
+    \vspace{5pt}
+    \centering
+    \begin{tabular}{c c}
+    \hline\hline
+      CovidData  & SQLite Attribute \\ [0.5ex]
+    \hline
+      dateRep  & TEXT \\
+      day  & INTEGER \\
+      month  & INTEGER \\
+      year  & INTEGER \\
+      cases  & INTEGER \\
+      deaths  & INTEGER \\
+      countriesAndTerritories  & TEXT \\
+      geoId  & TEXT \\
+      countryterritoryCode  & TEXT \\
+      popData2020  & INTEGER \\
+      continentExp  & TEXT \\ [0.5ex]
+    \hline
+    \end{tabular}
+    \label{tab:relations}
+\end{table}
+
+\subsection{EX2}
+
+After examining the dataset, the following functional dependencies can be observed:
+
+\begin{enumerate}
+    \item $dateRep \rightarrow  day$
+    \item $dateRep \rightarrow  month$
+    \item $dateRep \rightarrow  year$
+    \item $day, month, year \rightarrow  dateRep$
+    \item $countriesAndTerritories \rightarrow  geoId$
+    \item $geoId \rightarrow  countryterritoryCode$
+    \item $geoId \rightarrow  popData2020$
+    \item $geoId \rightarrow  continentExp$
+    \item $geoId \rightarrow  countriesAndTerritories$
+    \item $countryterritoryCode \rightarrow  geoId$
+    \item $dateRep, countriesAndTerritories \rightarrow  cases$
+    \item $dateRep, countriesAndTerritories \rightarrow  deaths$
+\end{enumerate}
+
+\subsection{EX3}
+
+All potential candidate keys:
+
+\begin{enumerate}
+    \item dateRep, countriesAndTerritories
+    \item dateRep, geoId
+    \item day, month, year, countriesAndTerritories
+    \item day, month, year, geoId
+\end{enumerate}
+
+\subsection{EX4}
+After comparing all candidate keys, I chose \textbf{\{dateRep, geoId\}} to be an optimal primary key as it has the least attributes.
+
+\section{Normalisation}
+\subsection{EX5}
+    
+The partial-key dependencies present in the relation are listed below:
+
+\begin{center}
+    \{day, month, year\} partially dependant to \{dateRep\} \\
+    \{geoId, countryterritoryCode, popData2020, continentExp\} partially dependant to \{countriesAndTerritories\}
+\end{center}
+    
+Hence, as part of the decomposition, the following relations could be deduced:
+
+\begin{center}
+Date\{dateRep, day, month, year\} \\
+CountryInformation\{countriesAndTerritories, geoId, countryterritoryCode, popData2020, continentExp\}
+\end{center}
+
+\subsection{EX6}
+By using the answer to EX5, we can convert the relation to 2nd Normal Form.
+
+\begin{table}[ht]
+    \caption{Date}
+    \vspace{5pt}
+    \centering
+    \begin{tabular}{c c c}
+    \hline\hline
+      CovidData  & SQLite Attribute & Key\\ [0.5ex]
+    \hline
+      dateRep  & TEXT & -primaryKey\\
+      day  & INTEGER \\
+      month  & INTEGER \\
+      year  & INTEGER \\ [0.5ex]
+    \hline
+    \end{tabular}
+    \label{tab:date}
+\end{table}
+
+\begin{table}[ht]
+    \caption{CountryInformation}
+    \vspace{5pt}
+    \centering
+    \begin{tabular}{c c c}
+    \hline\hline
+      CovidData  & SQLite Attribute & Key\\ [0.5ex]
+    \hline
+      countriesAndTerritories  & TEXT & -primaryKey\\
+      geoId  & TEXT \\
+      countryterritoryCode  & TEXT \\
+      popData2020  & INTEGER \\
+      continentExp  & TEXT \\ [0.5ex]
+    \hline
+    \end{tabular}
+    \label{tab:countryInfo}
+\end{table}
+
+By introducing these new relations, it is possible to reduce the main relation to the following:
+
+\begin{table}[ht]
+    \caption{ReducedCovidData}
+    \vspace{5pt}
+    \centering
+    \begin{tabular}{c c c}
+    \hline\hline
+      CovidData  & SQLite Attribute & Key\\ [0.5ex]
+    \hline
+      dateRep  & TEXT & -foreignKey\\
+      cases  & INTEGER \\
+      deaths  & INTEGER \\
+      countriesAndTerritories  & TEXT & -foreignKey\\ [0.5ex]
+    \hline
+    \end{tabular}
+    \label{tab:Reduced}
+\end{table}
+
+\newpage
+
+\subsection{EX7}
+
+By looking at the dataset, it is possible to assume that the population of a country is a constant number, therefore, the new relations contain one transitive dependency:
+
+\begin{center}
+    $countriesAndTerritories \rightarrow countryterritoryCode \rightarrow popData2020$
+\end{center}
+
+\subsection{EX8}
+
+Based on the dependency found in EX7, a new relation has to be formed in order to achieve 3rd Normal Form. Assuming every country has a geoId, the following relation can be formed:
+
+\begin{table}[ht]
+    \caption{Population}
+    \vspace{5pt}
+    \centering
+    \begin{tabular}{c c c}
+    \hline\hline
+      CovidData  & SQLite Attribute & Key\\ [0.5ex]
+    \hline
+      geoId  & INTEGER & -primaryKey\\
+      popData2020  & INTEGER \\ [0.5ex]
+    \hline
+    \end{tabular}
+    \label{tab:Population}
+\end{table}
+
+Finally, \textbf{countryInformation} will change to:
+
+\begin{table}[ht]
+    \caption{ReducedCountryInformation}
+    \vspace{5pt}
+    \centering
+    \begin{tabular}{c c c}
+    \hline\hline
+      CovidData  & SQLite Attribute & Key\\ [0.5ex]
+    \hline
+      countriesAndTerritories  & TEXT & -primaryKey\\
+      geoId  & TEXT & -foreignKey\\
+      countryterritoryCode  & TEXT \\
+      continentExp  & TEXT \\ [0.5ex]
+    \hline
+    \end{tabular}
+    \label{tab:countryInfo2}
+\end{table}
+
+\subsection{EX9}
+
+For each one of the four relations (ReducedCovidData, Date, ReducedCountryInformation, Population), each one of their dependencies X → Y is either a superkey or a trivial functional dependency ($Y \subseteq X$), consequently, all of them are already in Boyce-Codd Normal Form.
+
+\section{Modelling}
+\subsection{EX10}
+
+To start modelling the database physically, I first had to import the raw data from \textbf{dataset.csv} into a table called \textbf{dataset} in a SQLite database called \textbf{coronavirus.db}. To achieve that, the following commands were used:
+
+\begin{lstlisting}[caption={CMD commands for dataset.sql}]
+sqlite3 coronavirus.db
+
+CREATE TABLE dataset( "dateRep" TEXT, "day" INTEGER, "month" INTEGER, "year" INTEGER, "cases" INTEGER, "deaths" INTEGER, "countriesAndTerritories" TEXT, "geoId" TEXT, "countryterritoryCode" TEXT, "popData2020" INTEGER, "continentExp" TEXT );
+
+sqlite> .mode csv
+sqlite> .import dataset.csv dataset
+sqlite> .output dataset.sql
+sqlite> .dump dataset
+\end{lstlisting}
+
+\subsection{EX11}
+
+After creating \textbf{dataset.sql}, I wrote the SQL to represent the four relations mentioned in EX9(ReducedCovidData, Date, ReducedCountryInformation, Population) as additional tables. This was achieved with the use of \textbf{CREATE} statements and \textbf{CONSTRAINT} statements for the primary/foreign keys. Furthermore, the six following indexes were added to help querying.
+
+\begin{lstlisting}[caption={Indexes for querying}]
+CREATE INDEX idx_ReducedCovidData_cases
+ON ReducedCovidData(cases);
+
+CREATE INDEX idx_ReducedCovidData_deaths
+ON ReducedCovidData(deaths);
+
+CREATE INDEX idx_ReducedCovidData_dateRep_cases
+ON ReducedCovidData(dateRep, cases);
+
+CREATE INDEX idx_ReducedCovidData_dateRep_deaths
+ON ReducedCovidData(dateRep, deaths);
+
+CREATE INDEX idx_ReducedCovidData_countriesAndTerritories_cases
+ON ReducedCovidData(countriesAndTerritories, cases);
+
+CREATE INDEX idx_ReducedCovidData_countriesAndTerritories_deaths
+ON ReducedCovidData(countriesAndTerritories, deaths);
+\end{lstlisting}
+
+\subsection{EX12}
+
+By using \textbf{INSERT INTO} and \textbf{SELECT DISTINCT} statements, the new tables were populated with values from the 'dataset' table. To exclude the first line of the database, the following statement was used:
+
+\begin{center}
+    WHERE dateRep != 'dateRep'
+\end{center}
+
+Find below a full example of a final set of statements to populate the \textbf{Date} table:
+
+\begin{lstlisting}[caption={Date Table Statements}]
+INSERT INTO Date(dateRep, day, month, year)
+SELECT DISTINCT dateRep, day, month, year
+FROM dataset WHERE dateRep != 'dateRep';
+\end{lstlisting}
+
+\subsection{EX13}
+
+After several tests and tables gone wrong, the desired result was achieved, a fully populated database and its respective tables. 
+Moreover, the import and dump functions were used similarly to EX10 in order to dump the database unto \textbf{dataset2.sql} and \textbf{dataset3.sql}, after running \textbf{EX11.sql} and \textbf{EX12.sql}, respectively.
+
+\section{Querying}
+\subsection{EX14}
+
+To get the worldwide total number of cases and deaths, the following statement was used:
+
+\begin{lstlisting}[caption={Querying worldwide total number of cases and deaths}]
+SELECT SUM(cases) AS 'total cases', SUM(deaths) AS 'total deaths'
+FROM ReducedCovidData;
+\end{lstlisting}
+
+\subsection{EX15}
+
+To get the number of cases by date, in increasing date order, for the United Kingdom, the following statement was used:
+
+\begin{lstlisting}[caption={Querying number of cases for the UK by increasing date}]
+SELECT ReducedCovidData.dateRep AS 'Date', cases AS 'Number_Of_Cases'
+FROM ReducedCovidData INNER JOIN Date ON ReducedCovidData.dateRep = Date.dateRep
+WHERE countriesAndTerritories = 'United_Kingdom'
+ORDER BY year ASC, month ASC, day ASC;
+\end{lstlisting}
+
+\subsection{EX16}
+
+To get the number of cases and deaths by date, in increasing date order, for each country, the following statement was used:
+
+\begin{lstlisting}[caption={Querying number of cases and deaths for all countries by increasing date}]
+SELECT ReducedCovidData.countriesAndTerritories AS 'Country', ReducedCovidData.dateRep AS 'Date', SUM(cases) AS 'Number_Of_Cases', SUM(deaths) AS 'Number_Of_Deaths'
+FROM ReducedCovidData
+	INNER JOIN Date ON ReducedCovidData.dateRep = Date.dateRep
+	INNER JOIN ReducedCountryInformation ON ReducedCovidData.countriesAndTerritories = ReducedCountryInformation.countriesAndTerritories
+GROUP BY ReducedCovidData.dateRep, ReducedCovidData.countriesAndTerritories
+ORDER BY year ASC, month ASC, day ASC;
+\end{lstlisting}
+
+It can be seen from the \textbf{GROUP BY} statement that the result is ordered by date first.
+
+\subsection{EX17}
+
+To get the total number of cases and deaths as a percentage of the population rounded to three decimal cases, for each country, the following statement was used:
+
+\begin{lstlisting}[caption={Querying total number of cases and deaths of a country(percentage of population)}]
+SELECT ReducedCovidData.countriesAndTerritories AS 'Country', ROUND((SUM(cases) * 100.0) / (Population.popData2020), 3) AS '%_Cases_of_Population', ROUND((SUM(deaths) * 100.0) / (Population.popData2020), 3)AS '%_Deaths_of_Population'
+FROM ReducedCovidData
+	INNER JOIN ReducedCountryInformation ON ReducedCovidData.countriesAndTerritories = ReducedCountryInformation.countriesAndTerritories
+	INNER JOIN Population ON ReducedCountryInformation.geoId = Population.geoId
+GROUP BY ReducedCovidData.countriesAndTerritories;
+\end{lstlisting}
+
+\subsection{EX18}
+
+To get a descending list of the the top 10 countries, by percentage total deaths out of total cases in that country rounded to three decimal cases, the following statement was used:
+
+\begin{lstlisting}[caption={Querying 10 countries with highest deaths to cases ratio percentage}]
+SELECT ReducedCovidData.countriesAndTerritories AS 'Country', ROUND((SUM(deaths) * 100.0) / (SUM(cases) * 1.0), 3) AS '%_Deaths_of_Country_Cases'
+FROM ReducedCovidData
+GROUP BY countriesAndTerritories
+ORDER BY 2 DESC
+LIMIT 10;
+\end{lstlisting}
+
+\subsection{EX19}
+
+To get the date against a cumulative running total of the number of deaths by day and cases by day for the United Kingdom, the following statement was used:
+
+\begin{lstlisting}[caption={Querying cumulative number of deaths and cases over time for the UK}]
+SELECT ReducedCovidData.dateRep AS 'Date', SUM(cases) OVER(ORDER BY year ASC, month ASC, day ASC) AS 'Cumulative_UK_cases', SUM(deaths) OVER(ORDER BY year ASC, month ASC, day ASC) AS 'Cumulative_UK_deaths'
+FROM ReducedCovidData
+	INNER JOIN Date ON ReducedCovidData.dateRep = Date.dateRep
+WHERE countriesAndTerritories = 'United_Kingdom'
+ORDER BY year ASC, month ASC, day ASC;
+\end{lstlisting}
+
+\end{document}
