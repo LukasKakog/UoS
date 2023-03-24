@@ -1,0 +1,56 @@
+@options
+@packages
+@argfile
+--class-path
+'C:/Users/lkako/.m2/repository/org/openjfx/javafx-controls/17.0.2/javafx-controls-17.0.2.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-graphics/17.0.2/javafx-graphics-17.0.2.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-base/17.0.2/javafx-base-17.0.2.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-fxml/17.0.2/javafx-fxml-17.0.2.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-media/17.0.2/javafx-media-17.0.2.jar;C:/Users/lkako/.m2/repository/org/apache/logging/log4j/log4j-core/2.17.1/log4j-core-2.17.1.jar'
+--module-path
+'C:/Users/lkako/.m2/repository/com/neovisionaries/nv-websocket-client/2.14/nv-websocket-client-2.14.jar;D:/Uni/Programming2/CW/coursework/tetrecs/target/classes;C:/Users/lkako/.m2/repository/org/openjfx/javafx-media/17.0.2/javafx-media-17.0.2-win.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-graphics/17.0.2/javafx-graphics-17.0.2-win.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-fxml/17.0.2/javafx-fxml-17.0.2-win.jar;C:/Users/lkako/.m2/repository/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-controls/17.0.2/javafx-controls-17.0.2-win.jar;C:/Users/lkako/.m2/repository/org/openjfx/javafx-base/17.0.2/javafx-base-17.0.2-win.jar'
+--patch-module
+uk.ac.soton.comp1206='D:/Uni/Programming2/CW/coursework/tetrecs/src/main/java'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+--module-source-path
+'D:/Uni/Programming2/CW/coursework/tetrecs/target/site/apidocs/src'
+-author
+-bottom
+'Copyright &#169; 2022. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'D:/Uni/Programming2/CW/coursework/tetrecs/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'tetrecs 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'tetrecs 1.0-SNAPSHOT API'
+uk.ac.soton.comp1206
+uk.ac.soton.comp1206.component
+uk.ac.soton.comp1206.event
+uk.ac.soton.comp1206.game
+uk.ac.soton.comp1206.network
+uk.ac.soton.comp1206.scene
+uk.ac.soton.comp1206.ui
+'D:/Uni/Programming2/CW/coursework/tetrecs/src/main/java/module-info.java'
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\allclasses-index.html = 1650907476104
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\allpackages-index.html = 1650907476114
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\constant-values.html = 1650907475584
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\element-list = 1650907475338
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\help-doc.html = 1650907476245
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\index-all.html = 1650907476230
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\index.html = 1650907476236
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\jquery-ui.overrides.css = 1650907476368
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\member-search-index.js = 1650907476129
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\module-search-index.js = 1650907476118
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\overview-tree.html = 1650907476037
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\package-search-index.js = 1650907476121
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\script.js = 1650907476255
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\search.js = 1650907476275
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\stylesheet.css = 1650907476250
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\tag-search-index.js = 1650907476132
+D:\Uni\Programming2\CW\coursework\tetrecs\target\site\apidocs\type-search-index.js = 1650907476125
