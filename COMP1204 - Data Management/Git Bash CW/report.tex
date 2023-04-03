@@ -1,0 +1,104 @@
+% ----
+% COMP1204 CW1 Report Document
+% ----
+\documentclass[]{article}
+
+% Reduce the margin size, as they're quite big by default
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{float,graphicx}
+\usepackage{listings}
+\definecolor{graycode}{rgb}{0.5,0.5,0.5}
+\definecolor{background}{RGB}{230,230,230}
+
+\lstset{basicstyle=\ttfamily,
+  backgroundcolor=\color{background},
+  numberstyle=\small\color{graycode},
+  showstringspaces=false,
+  keywordstyle=\color{blue},
+  morekeywords={grep},
+  otherkeywords={grep},
+  breaklines=true,
+  commentstyle=\color{red},
+  numbers=left,
+  numbersep=6pt
+}
+
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{lscape} % Landscape figure
+\usepackage{graphicx} %Loading the package
+\graphicspath{{figures/}} %Setting the graphicspath
+
+\title{COMP1204: Data Management \\ Coursework One: Hurricane Monitoring }
+% Update these!
+\author{Lukas Kakogiannos \\ 32158998}
+
+% Actually start the report content
+\begin{document}
+
+% Add title, author and date info
+\maketitle
+
+\section{Introduction}
+\par
+The aim of this coursework is to describe the data cleaning process, in this case, to develop and explain a bash script that efficiently cleans data given in .kml files, making it useful for other scripts and readable to the human eye. Those .kml files contain useful information describing the trajectory of different storms throughout different times of the year, which are surrounded by useless tags and other bits of information. 
+\par
+\section{Create CSV Script}
+
+\begin{lstlisting}[language=bash,caption={final script}]
+#!/bin/bash
+
+#message for the user
+echo "Converting "$1" -> "$2""
+
+#text runs through a pipeline of commands and is modified until it is 
+#presentable (see page 2)
+grep -w 'UTC\|N\|mb\|knots' "$1" | sed -e '/name/d' -e '/dtg/d' -e 's/;.*//g' -e 's/<tr><td>//g' -e 's/<.td><.tr>//g' -e 's/<B>//g' -e 's/<.B>//g' | awk '(NR%4==1){time=$1; month=$3; day=$4} (NR%4==2){latitude=$1; longitude=$3} (NR%4==3){pressure=$1} (NR%4==0){knots=$1} (NR%4==0){print time" UTC "month" "day","latitude" N,"longitude" W,"pressure" mb,"knots" knots"}' | sed '1 i Timestamp,Latitude,Longitude,MinSeaLevelPressure,MaxIntensity' > "$2" 
+
+#message for the user
+echo "Done!"
+
+\end{lstlisting}
+\pagebreak
+\begin{enumerate}
+    \item 'grep -w' is used to print only lines that match one of the following four patterns (time, location, pressure and intensity), which leaves mostly useful information.
+    \\
+    \item 'sed' is used to delete useless information (e.g. mph, kph and Hg) and useless tags in the .kml files.
+    \\
+    \item the content of the pipeline at this point has the following format:
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width = 0.15\textwidth]{outputAfterSed.JPG}
+            \caption{output after the use of sed}
+        \end{figure}
+        Upon examining the pattern, it can be seen that every four lines match a different point in the hurricane's trajectory. 'awk' is used in the following way: the script goes through the input and assigns the important information into different variables, and every four lines, those variables are printed in the required format.
+    \\
+    \item The final 'sed' inserts a single header line which details the five columns of data.
+    \\
+    \item Finally, the output is stored in a file taken as a parameter from the shell.
+\end{enumerate}
+\pagebreak
+\section{Storm Plots}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.45\textwidth]{storm_plot1}  
+  \caption{al102020.kml storm plot}
+  \label{fig:al10}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.45\textwidth]{storm_plot2}  
+  \caption{al112020.kml storm plot}
+  \label{fig:al11}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.45\textwidth]{storm_plot3}  
+  \caption{al122020.kml storm plot}
+  \label{fig:al12}
+\end{figure}
+\end{document}
