@@ -1,0 +1,112 @@
+import tile1.tl;
+import tile2.tl;
+
+
+big2 = supersize (tile2,2);
+flipbig = flipx (big2);
+flip1 = flipx (tile1);
+flip2 = flipx (tile2);
+
+-- creating the first piece 
+helper = join [flip1,flip1,flip2];
+
+helper2 = stack [flip1,tile2];
+
+helper3 = join [helper2,big2];
+
+helper = stack [helper,helper3];
+
+helper4 = stack[flip2,tile1];
+
+helper4 = join [helper4,flipbig];
+
+helper = stack [helper,helper4];
+
+inv = flipx (helper);
+
+firstpiece = stack [helper,inv];
+
+-- the flipped first piece 
+
+helper = join [flip2,flip1,flip1];
+
+helper2 = stack [flip1,tile2];
+
+helper3 = join [big2,helper2];
+
+helper = stack [helper,helper3];
+
+helper4 = stack[flip2,tile1];
+
+helper4 = join [flipbig,helper4];
+
+helper = stack [helper,helper4];
+
+inv = flipx (helper);
+
+firstflip = stack [helper,inv];
+
+
+
+
+--  creating the second piece 
+var1 = stack [flip2,tile1];
+
+var1 = join [flipbig,flipbig,var1];
+
+var2 = stack [flip2,tile1,tile1];
+
+helpme = join [tile1,tile2];
+
+helpme = stack [flipbig,helpme];
+
+var2 = join [var2,helpme];
+
+helping = join [tile1,tile1];
+
+helping = stack [helping,big2];
+
+var2 = join [var2,helping];
+
+var1 = stack [var1,var2];
+
+lasthelp = flipx (var1);
+
+
+secondpiece = stack [var1,lasthelp];
+
+-- flipped second piece
+var1 = stack [flip2,tile1];
+
+var1 = join [var1,flipbig,flipbig];
+
+var2 = stack [flip2,tile1,tile1];
+
+helpme = join [tile2,tile1];
+
+helpme = stack [flipbig,helpme];
+
+var2 = join [helpme,var2];
+
+helping = join [tile1,tile1];
+
+helping = stack [helping,big2];
+
+var2 = join [helping,var2];
+
+var1 = stack [var1,var2];
+
+lasthelp = flipx (var1);
+secondflip = stack [var1,lasthelp];
+
+
+
+firstrow = join [firstpiece,secondpiece,secondflip,firstflip,firstpiece,secondpiece,secondflip,firstflip,firstpiece,secondpiece];
+
+secondrow = firstrow;
+
+for (3){
+	#firstrow = stack[firstrow,secondrow]
+};
+
+print(firstrow);

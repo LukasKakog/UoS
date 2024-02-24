@@ -1,0 +1,62 @@
+import tile1.tl;
+
+-- creating the 100N x 100N size tile
+tile100 = supersize(tile1,100);
+
+-- creating parameters for current tile generation
+size1 = numCol(tile1);
+size100 = numCol(tile100);
+modsize = size1 * 2;
+param = size100 - modsize;
+pos = modsize;
+c = 98;
+
+xblank1 = param;
+yblank1 = pos;
+
+xblank2 = pos;
+yblank2 = size100;
+
+-- setting current tile
+currTile = tile100;
+
+for (49) {
+	
+	-- creation of current tile
+	#tempTile = supersize(tile1,c)
+	
+	-- getting current tile to 100N x 100N size
+	#blTl1 = blank(xblank1,yblank1)
+	#blTl2 = blank(xblank2,yblank2)
+	#tempTile = stack[blTl1,tempTile]
+	#tempTile = join[blTl2,tempTile]
+
+	-- XOR gate between initial 100N x 100N tile and current 100N x 100N tile
+	#notAandB = neg(conj(currTile,tempTile))
+	#bool1 = neg(conj(currTile,notAandB))
+	#bool2 = neg(conj(tempTile,notAandB))
+	#currTile = neg(conj(bool1,bool2))
+
+	-- updating parameters used for next tile generation
+	#pos = pos + modsize
+	#param = param - modsize
+	#xblank1 = param
+	#yblank1 = pos
+	#xblank2 = pos
+	#c = c - 2
+
+};
+
+-- creating the 200N x 200N tile
+q1 = currTile;
+q2 = flipy(q1);
+q3 = flipx(q1);
+q4 = flipx(q2);
+
+toprow = join[q1, q2];
+bottomrow = join[q3, q4];
+
+outTile = stack[toprow, bottomrow];
+
+-- printing the tile
+print(outTile);

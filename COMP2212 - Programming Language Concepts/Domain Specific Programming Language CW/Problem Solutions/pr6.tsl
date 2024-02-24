@@ -1,0 +1,102 @@
+import tile1.tl;
+import tile2.tl;
+import tile3.tl;
+
+x = numCol(tile1);
+y = numRow(tile1);
+
+bTile = blank(x,y);
+
+base1 = join[tile1,tile2,tile3];
+
+base2 = join[tile2,tile3,tile1];
+
+base3 = join[tile3,tile1,tile2];
+
+-- startRow1 creation start
+
+startRow1 = join[bTile,bTile];
+
+for (19) {
+    
+    #startRow1 = join[startRow1,base1]
+
+};
+
+startRow1 = join[startRow1,tile1];
+
+-- startRow1 creation end
+
+-- startRow2 creation start
+
+startRow2 = bTile;
+
+for (19) {
+
+    #startRow2 = join[startRow2, base2]
+
+};
+
+startRow2 = join[startRow2, tile2, tile3];
+
+-- creating the main 3 rows
+
+row1 = base1;
+
+for (19) {
+    
+    #row1 = join[row1, base1]
+    
+};
+
+row2 = base2;
+
+for (19) {
+    
+    #row2 = join[row2, base2]
+    
+};
+
+row3 = base3;
+
+for (19) {
+    
+    #row3 = join[row3, base3]
+    
+};
+
+-- creating ending rows
+
+endRow1 = base1;
+
+for (18) {
+
+    #endRow1 = join[endRow1,base1]
+
+};
+
+endRow1 = join[endRow1, tile1, tile2, bTile];
+
+endRow2 = base3;
+
+for (18) {
+
+    #endRow2 = join[endRow2,base3]
+
+};
+
+endRow2 = join[endRow2,tile3,bTile,bTile];
+
+-- Final output
+
+output = stack[startRow1,startRow2];
+
+for (18) {
+
+    #output = stack[output, row3, row2, row1]
+    
+};
+
+output = stack [output, row3, row2, endRow1, endRow2];
+
+print(output);

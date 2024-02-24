@@ -1,0 +1,30 @@
+import tile1.tl;
+
+tile2 = rotate(tile1);
+
+tile3 = rotate(tile2);
+
+tile4 = rotate(tile3);
+
+temp1 = join[tile1,tile2];
+
+temp2 = join[tile4,tile3];
+
+baseTile = stack[temp1, temp2];
+
+bigTile = supersize(baseTile, 3);
+
+column = baseTile;
+
+row = join[baseTile, baseTile, baseTile]; 
+
+for (4){
+	#column = stack[column, baseTile]
+};
+
+
+middle = stack[row, bigTile, row]; 
+
+outTile = join[column, middle, column];
+
+print(outTile);

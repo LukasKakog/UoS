@@ -1,0 +1,27 @@
+import tile1.tl;
+
+tile2 = flipy(tile1);
+tile3 = flipx(tile1);
+tile4 = flipx(tile2);
+
+x = numRow(tile1);
+y = numCol(tile1);
+
+blTile = blank(x,y);
+temp1 = join[tile1, tile2, blTile];
+temp2 = join[blTile, tile3, tile4];
+baseTile = stack[temp1, temp2];
+flipped = flipx(baseTile);
+row = join[baseTile, flipped];
+
+for (9){
+	#row = join[row,baseTile, flipped]
+};
+
+outTile = row;
+
+for (29){
+	#outTile = stack[outTile,row]
+};
+
+print(outTile);

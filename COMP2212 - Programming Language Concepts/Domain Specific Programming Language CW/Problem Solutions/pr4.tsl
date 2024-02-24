@@ -1,0 +1,56 @@
+import tile1.tl;
+import tile2.tl;
+import tile3.tl;
+
+tile4 = neg(tile3);
+
+r = 0;
+c = 0;
+
+x = numRow(tile1);
+
+case1 = conj(tile1,tile4);
+case2 = conj(tile2,tile4);
+blankTl = blank(x, x);
+
+fstrow = case1; 
+c = 1;
+for (49){
+    #if ((r + c < 50) && (c < 25)) then {
+        fstrow = join[fstrow, case1]        
+    } else if ((r < c + 1) && (24 < c)) then {
+        fstrow = join[fstrow, case2]
+    } else {
+        fstrow = join[fstrow, blankTl]
+    }
+    #c = c + 1
+};
+
+r = 1;
+outTile = fstrow;
+
+for (49){
+    #c = 0
+	#if ((r + c < 50) && (c < 25)) then {
+        temprow = case1       
+    } else if ((r < c + 1) && (24 < c)) then {
+        temprow = case2
+    } else {
+        temprow = blankTl
+    }
+    #c = c + 1
+    #for (49){
+        #if ((r + c < 50) && (c < 25)) then {
+            temprow = join[temprow,case1]        
+        } else if ((r < c + 1) && (24 < c)) then {
+            temprow = join[temprow,case2]
+        } else {
+            temprow = join[temprow,blankTl]
+        }
+        #c = c + 1
+	}
+	#outTile = stack[outTile,temprow]
+	#r = r + 1
+};
+
+print(outTile);

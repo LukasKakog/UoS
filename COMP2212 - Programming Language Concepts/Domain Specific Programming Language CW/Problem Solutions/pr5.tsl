@@ -1,0 +1,13 @@
+import tile1.tl;
+
+subT1 = subtile(tile1,(0,0),6);
+subT2 = subtile(tile1,(2,2),6);
+subT3 = subtile(tile1,(4,4),6);
+
+row1 = join[subT1,subT1,subT1];
+row2 = join[subT2,subT2,subT2];
+row3 = join[subT3,subT3,subT3];
+
+outTile = stack[row1,row2,row3];
+
+print(outTile);

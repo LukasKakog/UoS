@@ -1,0 +1,127 @@
+import tile1.tl;
+import tile2.tl;
+
+-- size of bigger tile
+size1 = numCol(tile1);
+
+-- getting 12 x 12 tile
+s12x12 = subtile(tile1,(0,0),12);
+
+-- setting column and row counters
+c = 12;
+r = 0;
+
+-- getting 5 x 12 tile
+s5x1 = subtile(tile1,(c,r),1);
+
+for (4) {
+	#c = c + 1
+	#temp = subtile(tile1,(c,r),1)
+	#s5x1 = join[s5x1,temp]
+};
+s5x12 = s5x1;
+
+r = 1;
+c = 12;
+for (11) {
+	#s5x1 = subtile(tile1,(c,r),1)
+	#for (4) {
+		#c = c + 1
+		#temp = subtile(tile1,(c,r),1)
+		#s5x1 = join[s5x1,temp]
+	}
+	#s5x12 = stack[s5x12,s5x1]
+	#r = r + 1
+	#c = 12
+};
+
+-- getting 12 x 5 tile
+c = 0;
+r = 12;
+
+s1x5 = subtile(tile1,(c,r),1);
+for (4) {
+	#r = r + 1
+	#temp = subtile(tile1,(c,r),1)
+	#s1x5 = stack[s1x5,temp]
+};
+s12x5 = s1x5;
+
+c = 1;
+r = 12;
+for (11) {
+	#s1x5 = subtile(tile1,(c,r),1)
+	#for (4) {
+		#r = r + 1
+		#temp = subtile(tile1,(c,r),1)
+		#s1x5 = stack[s1x5,temp]
+	}
+	#s12x5 = join[s12x5,s1x5]
+	#r = 12
+	#c = c + 1
+};
+
+-- getting 17 x 17 tile
+s17x12 = join[s12x12,s5x12];
+s17x5 = join[s12x5,tile2];
+s17x17 = stack[s17x12,s17x5];
+
+-- getting rest of the tile
+x = size1 - 18;
+c = 17;
+r = 0;
+
+temprow = subtile(tile1,(c,r),1);
+for (x) {
+	#c = c + 1
+	#temp = subtile(tile1,(c,r),1)
+	#temprow = join[temprow,temp]
+};
+tempTile1 = temprow;
+
+r = 1;
+c = 17;
+for (16) {
+	#temprow = subtile(tile1,(c,r),1)
+	#for (x) {
+		#c = c + 1
+		#temp = subtile(tile1,(c,r),1)
+		#temprow = join[temprow,temp]
+	}
+	#tempTile1 = stack[tempTile1,temprow]
+	#r = r + 1
+	#c = 17
+};
+
+x = size1 - 18;
+c = 0;
+r = 17;
+
+tempcol = subtile(tile1,(c,r),1);
+for (x) {
+	#c = c + 1
+	#temp = subtile(tile1,(c,r),1)
+	#tempcol = stack[tempcol,temp]
+};
+tempTile2 = tempcol;
+
+r = 17;
+c = 1;
+for (size1 - 1) {
+	#tempcol = subtile(tile1,(c,r),1)
+	#for (x) {
+		#r = r + 1
+		#temp = subtile(tile1,(c,r),1)
+		#tempcol = stack[tempcol,temp]
+	}
+	#tempTile2 = join[tempTile2,tempcol]
+	#c = c + 1
+	#r = 17
+};
+
+-- making the final tile
+
+finaltop = join[s17x17,tempTile1];
+outTile = stack[finaltop,tempTile2];
+
+print(outTile);

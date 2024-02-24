@@ -1,0 +1,55 @@
+import tile1.tl;
+
+x = numCol(tile1);
+
+bTile = blank(x,x);
+
+rowTiles = tile1;
+
+row = 1;
+
+col = 1;
+
+--Setting up base tile
+
+base = tile1;
+
+for (100) {
+
+    #base = join[base,bTile]
+
+};
+
+temp = tile1;
+
+for (100) {
+
+    #for (100) {
+        
+        #if (2 * col < row ) then {
+            temp = join[temp,tile1]
+        } else {
+            temp = join[temp,bTile]
+        }
+        #col = col + 1
+    }
+    
+    #base = stack[base,temp]
+    #temp = tile1
+    #row = row + 1
+    #col = 1
+
+};
+
+-- tranformations
+
+
+--tileA is using a NAND
+tileA = neg ( conj (neg(base), neg(flipy(base))));
+
+tileB = rotate (rotate ( rotate (tileA)));
+
+output = conj (neg(conj(tileA, tileB)), neg(conj(neg(tileA), neg(tileB))));
+
+
+print(output);
