@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Box
+  - Orb
+  - RealOrb
+  - FakeOrb
+  - TransitionCF
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Obstacles
+  - Water
+  - UI
+  - Boxes
+  - Background
+  - Avatar
+  - Items
+  - Door
+  - LockedDoor
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1969073557
+    locked: 0
+  - name: Avatar
+    uniqueID: 1460296941
+    locked: 0
+  - name: Items
+    uniqueID: 2861193105
+    locked: 0
+  - name: Transition
+    uniqueID: 1546684715
+    locked: 0
