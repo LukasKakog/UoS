@@ -1,0 +1,4 @@
+repository "The Lion And The Shepherd@LionShepherdGameDev@cloud"
+  path "/"
+    br "/main"
+    co "/main"
